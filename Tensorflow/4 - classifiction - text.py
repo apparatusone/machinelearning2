@@ -16,10 +16,15 @@ from keras import losses
 #                                     cache_subdir='')
 # dataset_dir = os.path.join(os.path.dirname(dataset), 'aclImdb')
 # Use a relative path
+
 dataset_dir = 'aclImdb'
 
 train_dir = os.path.join(dataset_dir, 'train')
 os.listdir(train_dir)
+
+# remove unused folders to make it easier to load the data
+remove_dir = os.path.join(train_dir, 'unsup')
+shutil.rmtree(remove_dir)
 
 # # access a file
 # sample_file = os.path.join(train_dir, 'pos/1181_9.txt')

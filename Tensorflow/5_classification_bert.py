@@ -11,16 +11,20 @@ import matplotlib.pyplot as plt
 
 tf.get_logger().setLevel('ERROR')
 
-url = "https://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz"
+# url = "https://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz"
 
-dataset = tf.keras.utils.get_file("aclImdb_v1", url,
-                                    untar=True, cache_dir='.',
-                                    cache_subdir='')
+# dataset = tf.keras.utils.get_file("aclImdb_v1", url,
+#                                     untar=True, cache_dir='.',
+#                                     cache_subdir='')
 
-dataset_dir = os.path.join(os.path.dirname(dataset), 'aclImdb')
+# dataset_dir = os.path.join(os.path.dirname(dataset), 'aclImdb')
 
-# dataset_dir = 'aclImdb'
+dataset_dir = 'aclImdb'
 train_dir = os.path.join(dataset_dir, 'train')
+
+# remove unused folders to make it easier to load the data
+remove_dir = os.path.join(train_dir, 'unsup')
+shutil.rmtree(remove_dir)
 
 AUTOTUNE = tf.data.AUTOTUNE
 batch_size = 32
@@ -53,7 +57,7 @@ test_ds = test_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
 bert = 'bert_en_uncased_L-12_H-768_A-12'
 
-tfhub_handle_encoder = 'https://tfhub.dev/tensorflow/small_bert/bert_en_uncased_L-4_H-512_A-8/2'
+tfhub_handle_encoder = 'https://tfhub.dev/tensorflow/small_bert/bert_en_uncased_L-2_H-128_A-2/2'
 tfhub_handle_preprocess = 'https://tfhub.dev/tensorflow/bert_en_uncased_preprocess/3'
 
 bert_preprocess_model = hub.KerasLayer(tfhub_handle_preprocess)
